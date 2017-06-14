@@ -7,6 +7,7 @@ export class Todo extends Component {
     console.log(this.constructor.name);
 
     this.state = {
+      editItem: '',
       value: '',
       items: ['task #1', 'task #2', 'task #3']
     }
@@ -21,10 +22,16 @@ export class Todo extends Component {
 
   handleClick(e) {
     e.preventDefault();
-    console.log(this.state.items);
     let items = [...this.state.items, this.state.value];
-    console.log(items);
     this.setState({items: items})
+  }
+
+  handleEditing(edited, e) {
+    this.setState({editItem: e.target.value, items: _.map(this.state.items, item => (item == edited) ? e.target.value : item )});
+  }
+
+  handleEdit(item){
+    this.setState({editItem: item});
   }
 
   handleMoveUp(item, i) {
@@ -59,7 +66,8 @@ export class Todo extends Component {
           {this.state.items.map((item, index) =>
             <li>
               <span>
-                <code> {item} </code>
+                { (this.state.editItem.length > 0 && this.state.editItem == item) ? <input type="text" value={item} onChange={this.handleEditing.bind(this, item)}/> : <code> {item} </code> }
+                <button onClick={this.handleEdit.bind(this, item)}>Edit</button>
                 <button onClick={this.handleDelete.bind(this, item)}>Del</button>
                 <button onClick={this.handleMoveUp.bind(this, item, index)}
                         disabled={index == 0}>Up</button>
