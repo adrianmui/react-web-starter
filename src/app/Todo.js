@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'underscore';
 
 export class Todo extends Component {
   constructor(props) {
@@ -26,6 +27,10 @@ export class Todo extends Component {
     this.setState({items: items})
   }
 
+  handleDelete(item) {
+    this.setState({items: _.without(this.state.items, item)})
+  }
+
   render() {
     return (
       <div>
@@ -39,7 +44,14 @@ export class Todo extends Component {
 
       <h3> Todo List App </h3>
         <ul>
-          {this.state.items.map((item, i) => <li><code id={i}> {item} </code></li>)}
+          {this.state.items.map(item =>
+            <li>
+              <span>
+                <code> {item} </code>
+                <button onClick={this.handleDelete.bind(this, item)}>Del</button>
+              </span>
+            </li>
+          )}
         </ul>
       </div>
     );
