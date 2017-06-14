@@ -27,6 +27,18 @@ export class Todo extends Component {
     this.setState({items: items})
   }
 
+  handleMoveUp(item, i) {
+      let temp = _.without(this.state.items, item);
+      temp.splice(i - 1, 0, item);
+      this.setState({items: temp});
+  }
+
+  handleMoveDown(item, i) {
+      let temp = _.without(this.state.items, item);
+      temp.splice(i + 1, 0, item);
+      this.setState({items: temp});
+  }
+
   handleDelete(item) {
     this.setState({items: _.without(this.state.items, item)})
   }
@@ -44,11 +56,15 @@ export class Todo extends Component {
 
       <h3> Todo List App </h3>
         <ul>
-          {this.state.items.map(item =>
+          {this.state.items.map((item, index) =>
             <li>
               <span>
                 <code> {item} </code>
                 <button onClick={this.handleDelete.bind(this, item)}>Del</button>
+                <button onClick={this.handleMoveUp.bind(this, item, index)}
+                        disabled={index == 0}>Up</button>
+                <button onClick={this.handleMoveDown.bind(this, item, index)}
+                        disabled={index == this.state.items.length - 1}>Down</button>
               </span>
             </li>
           )}
