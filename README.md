@@ -4,6 +4,8 @@ adrian - 6/13/17
 
 ### features: create, update, delete, reorder
 
+### server starts at http://localhost:4200/webpack-dev-server/
+
 ```
 - `npm install`
 - `npm start`
