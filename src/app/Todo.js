@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 
 export class Todo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     console.log(this.constructor.name);
 
     this.state = {
       value: '',
       items: ['task #1', 'task #2', 'task #3']
     }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange(e) {
@@ -17,7 +20,9 @@ export class Todo extends Component {
 
   handleClick(e) {
     e.preventDefault();
+    console.log(this.state.items);
     let items = [...this.state.items, this.state.value];
+    console.log(items);
     this.setState({items: items})
   }
 
@@ -31,6 +36,11 @@ export class Todo extends Component {
         </label>
           <input type="submit" value="Submit"/>
         </form>
+
+      <h3> Todo List App </h3>
+        <ul>
+          {this.state.items.map((item, i) => <li><code id={i}> {item} </code></li>)}
+        </ul>
       </div>
     );
   }
